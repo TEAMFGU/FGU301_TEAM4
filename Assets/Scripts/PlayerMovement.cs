@@ -11,36 +11,28 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // 1. Lấy input
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
 
-        // 2. Ép nhân vật chỉ đi 1 hướng (RPG style) để ko bị chéo
-        if (Mathf.Abs(h) > Mathf.Abs(v)) v = 0;
-        else h = 0;
+        // Thao tác di chuyển bằng các phím W, A, S, D
+        if (Input.GetKey(KeyCode.W)) v += 1;
+        if (Input.GetKey(KeyCode.S)) v -= 1;
+        if (Input.GetKey(KeyCode.A)) h -= 1;
+        if (Input.GetKey(KeyCode.D)) h += 1;
 
-        movement = new Vector2(h, v);
+        anim.SetFloat("Horizontal", h);
+        anim.SetFloat("Vertical", v);
 
-        // 3. Truyền dữ liệu vào Animator (PHẢI khớp tên với bảng Parameters)
-        if (movement != Vector2.zero)
-        {
-            anim.SetFloat("Horizontal", movement.x);
-            anim.SetFloat("Vertical", movement.y);
-            anim.SetFloat("Speed", 1); // Đang đi
-            lastDir = movement; // Lưu lại hướng cuối
-        }
-        else
-        {
-            // Khi dừng lại: Giữ hướng nhìn cuối cùng và Speed = 0
-            anim.SetFloat("Horizontal", lastDir.x);
-            anim.SetFloat("Vertical", lastDir.y);
-            anim.SetFloat("Speed", 0); // Đứng yên
-        }
+        // Tính speed, sử dụng speed để điều chỉnh animation blend tree
+        float speed = Mathf.Sqrt(h * h + v * v);  
+        anim.SetFloat("Speed", speed);
+
+        transform.Translate(new Vector3(h, v, 0) * speed * Time.deltaTime);
     }
 
     void FixedUpdate()
     {
-        rb.velocity = movement.normalized * moveSpeed;
+        rb.linearVelocity = movement.normalized * moveSpeed;
     }
 
 

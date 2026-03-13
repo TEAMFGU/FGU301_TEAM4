@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8536357070094971619}
   - component: {fileID: 3241877925874100956}
   - component: {fileID: 7999314622158508525}
-  m_Layer: 0
+  - component: {fileID: 1401487875215383531}
+  m_Layer: 7
   m_Name: UyenNhi
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,9 +80,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1177720367
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9198375172747104106, guid: 9100179ce3f8d6d4bbbce42e3f2273a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -161,3 +162,43 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.37796736, y: 0.45290813}
   m_EdgeRadius: 0
+--- !u!114 &1401487875215383531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2193847470793592653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0b54ce95ddc4b9461817fe3ad6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPC_Interactor
+  data: {fileID: 11400000, guid: 971819c231645bd409a46ccefd55da44, type: 2}
+  dialogueLevels:
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  onAffection50:
+    m_PersistentCalls:
+      m_Calls: []
+  onAffection100:
+    m_PersistentCalls:
+      m_Calls: []

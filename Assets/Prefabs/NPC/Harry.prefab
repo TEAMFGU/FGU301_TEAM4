@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6999847890436674923}
   - component: {fileID: 8260265624161960622}
   - component: {fileID: -6614072433768166459}
-  m_Layer: 0
+  - component: {fileID: -8435678524956443239}
+  m_Layer: 7
   m_Name: Harry
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,9 +81,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1177720367
+  m_SortingLayer: 2
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4276115169401499435, guid: 741f7bffe64398242a6673aa697186ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -189,3 +190,43 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-8435678524956443239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058362041503298017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24fe0b54ce95ddc4b9461817fe3ad6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPC_Interactor
+  data: {fileID: 11400000, guid: b4156057921607a408e7ed75e752bd33, type: 2}
+  dialogueLevels:
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  - npcText: 
+    playerChoices: []
+    affectionChange: 0
+    stressChange: 0
+    studyChange: 0
+  onAffection50:
+    m_PersistentCalls:
+      m_Calls: []
+  onAffection100:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b44c43420214941a398b4f8ea9b4fd, type: 3}
+  m_Name: NPC_NhanLe
+  m_EditorClassIdentifier: Assembly-CSharp::NPCData
+  npcName: "Nh\xE2n L\xEA"
+  description: "H\u1ECDc b\xE1, b\xE9o, mi\u1EC1n T\xE2y, tr\u1EA7m t\xEDnh, h\u1ECDc
+    gi\u1ECFi nh\u01B0ng \xEDt n\xF3i, hay gi\xFAp \u0111\u1EE1 b\xE0i v\u1EDF, \u0111\xE1ng
+    tin c\u1EADy"
+  initialAffection: 0
+  routeType: Normal
+  level: 1
+  affection: 0
+  unlockedCutscene50: 0
+  unlockedCutscene100: 0

@@ -5,7 +5,26 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Home.unity
+    guid: 1625ebd35fd2493459998874e7d57a91
+  - enabled: 1
+    path: Assets/Scenes/Park.unity
+    guid: d3ec00fb989cffd4b94480d0f2b37d11
+  - enabled: 1
+    path: Assets/Scenes/schoolyard.unity
+    guid: 49cd30fb3ac5a224eae1d22c25be5670
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 790adb501cc91b14ead09520f5b165ba
+  - enabled: 1
+    path: Assets/Scenes/Class.unity
+    guid: 3bb9bf719ac557d41a0503153997d606
+  - enabled: 1
+    path: Assets/Scenes/Carteria.unity
+    guid: 925691fc97d5a36479c98c92891e59be
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

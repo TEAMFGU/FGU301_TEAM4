@@ -15,6 +15,6 @@ public class MenuHandler : MonoBehaviour
     public void StartNewGame()
     {
         // SỬA CHỖ NÀY: Bỏ chữ "SceneManagement." đi, chỉ để SceneManager thôi
-        SceneManager.LoadScene("Home");
+        SceneManager.LoadScene("Scene_Map001_Home");
     }
 }

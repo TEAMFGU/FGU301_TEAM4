@@ -2,44 +2,61 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public Rigidbody2D rb;
-    public Animator anim;
+    public float moveSpeed = 8f;
+
+    private Rigidbody2D rb;
+    private Animator anim;
 
     private Vector2 movement;
-    private Vector2 lastDir = Vector2.down; // Mặc định nhìn xuống
+    private Vector2 lastDir = Vector2.down; // hướng nhìn mặc định
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+    }
 
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
-        // Thao tác di chuyển bằng các phím W, A, S, D
-        if (Input.GetKey(KeyCode.W)) v += 1;
-        if (Input.GetKey(KeyCode.S)) v -= 1;
-        if (Input.GetKey(KeyCode.A)) h -= 1;
-        if (Input.GetKey(KeyCode.D)) h += 1;
+        // Chỉ cho đi 1 hướng (RPG style)
+        if (Mathf.Abs(h) > Mathf.Abs(v))
+        {
+            v = 0;
+        }
+        else
+        {
+            h = 0;
+        }
 
-        anim.SetFloat("Horizontal", h);
-        anim.SetFloat("Vertical", v);
+        movement = new Vector2(h, v);
 
-        // Tính speed, sử dụng speed để điều chỉnh animation blend tree
-        float speed = Mathf.Sqrt(h * h + v * v);  
-        anim.SetFloat("Speed", speed);
+        // Kiểm tra có đang di chuyển không
+        bool isMoving = movement != Vector2.zero;
 
-        transform.Translate(new Vector3(h, v, 0) * speed * Time.deltaTime);
+        // Set cho Animator
+        anim.SetBool("IsMoving", isMoving);
+
+        if (isMoving)
+        {
+            lastDir = movement;
+
+            anim.SetFloat("MoveX", movement.x);
+            anim.SetFloat("MoveY", movement.y);
+        }
+        else
+        {
+            // Khi đứng yên → giữ hướng cũ
+            anim.SetFloat("MoveX", lastDir.x);
+            anim.SetFloat("MoveY", lastDir.y);
+        }
     }
 
     void FixedUpdate()
     {
         rb.linearVelocity = movement.normalized * moveSpeed;
     }
-
-
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>(); // Tự tìm Rigidbody2D trên người nó
-        anim = GetComponent<Animator>(); // Tự tìm Animator trên người nó
-    }
 }
+   

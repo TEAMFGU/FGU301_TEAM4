@@ -1,46 +1,78 @@
-# Unity generated files
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
-[Bb]uildSettings/
-UserSettings/
-MemoryCaptures/
-*.csproj
+# =============================================================
+# Unity .gitignore – FPT Adventure (Unity 6, 6000.3.11f1)
+# Ref: https://github.com/github/gitignore/blob/main/Unity.gitignore
+# =============================================================
+
+# ── Thư mục tự sinh bởi Unity (KHÔNG commit) ─────────────────
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+/[Bb]uildSettings/
+/[Aa]sset[Ss]tore/
+
+# ── Build output ──────────────────────────────────────────────
+/[Bb]uild/
+/[Bb]uilds/
+*.apk
+*.aab
+*.ipa
+*.unitypackage
+*.app
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+
+# ── UserSettings: layout/prefs riêng của từng máy ────────────
+# LƯU Ý: Packages/manifest.json & packages-lock.json PHẢI commit
+/[Uu]ser[Ss]ettings/
+
+# ── Visual Studio / Rider / VS Code (file tự sinh) ───────────
 *.sln
+*.slnx
+*.csproj
 *.unityproj
 *.suo
 *.user
 *.userprefs
+*.csproj.user
+*.sln.DotSettings.user
+*.sublime-workspace
+*.code-workspace
+.vs/
+.idea/
+.vscode/
+
+# ── Debug / symbol files ──────────────────────────────────────
 *.pidb
 *.booproj
 *.svd
 *.pdb
 *.mdb
 *.opendb
-*.DS_Store
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
 *.stackdump
-*.vs/
-.vs/
-*.sln.DotSettings.user
-*.sublime-workspace
+sysinfo.txt
 
-# Never commit these (very large or sensitive)
-AssetBundles/
-Temp/
-Library/
-Logs/
-UserSettings/
-[Aa]sset[Ss]tore/
-*.assetstore
-*.unitypackage
+# ── Archive / large files ─────────────────────────────────────
 *.zip
 *.rar
 *.7z
 
-# OS generated files
+# ── Misc temp ─────────────────────────────────────────────────
+*.tmp
+*.TMP
+*.bak
+*.swp
+*.swo
+*~
+
+# ── OS generated ──────────────────────────────────────────────
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -48,81 +80,7 @@ Thumbs.db
 ehthumbs.db
 desktop.ini
 
-# Visual Studio / Rider / VS Code
-*.csproj
-*.sln
-*.suo
-*.user
-*.userprefs
-*.pidb
-*.booproj
-*.svd
-*.pdb
-*.mdb
-*.opendb
-*.sln.DotSettings.user
-*.csproj.user
-*.csproj.DotSettings.user
-.idea/
-.vscode/
-*.vs/
-*.code-workspace
-
-# Package Manager Cache
-[Pp]ackages/
-[Pp]ackage[Cc]ache/
-Library/PackageCache/
-
-# Android / iOS build files
-[Tt]emp/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ibrary/
-[Oo]bj/
-*.apk
-*.aab
-*.ipa
-*.xcodeproj/
-*.xcworkspace/
-*.pbxproj
-*.xcuserstate
-*.xcuserdatad/
-DerivedData/
-*.moved-aside
-*.plist
-*.entitlements
-*.provisionprofile
-
-# WebGL / other platform temp
-*.webgl/
-WebGLTemplates/
-
-# Profiler / Performance data
-*.profiler
-*.raw
-*.0
-*.1
-*.2
-*.3
-*.4
-*.5
-*.6
-*.7
-*.8
-*.9
-*.10
-
-# Yarn / npm if you use any JS in project
-node_modules/
-yarn.lock
-package-lock.json
-
-# Misc
-*.bak
-*.swp
-*.swo
-*~
-*.tmp
-*.TMP
-Thumbs.db
-ehthumbs.db
+# ── Addressables (khi dùng sau này) ──────────────────────────
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/**/[Bb]uildProcessorCache
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*

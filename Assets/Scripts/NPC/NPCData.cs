@@ -17,6 +17,8 @@ public class NPCData : ScriptableObject
     public float affection = 0f;               // Thiện cảm thực tế (sẽ +25% mỗi lần)
 
     [Header("Cutscene Mốc")]
+    public bool unlockedCutscene25 = false;    // Mở khi đạt 25%
     public bool unlockedCutscene50 = false;    // Mở khi đạt 50%
+    public bool unlockedCutscene75 = false;    // Mở khi đạt 75%
     public bool unlockedCutscene100 = false;   // Mở khi đạt 100%
 }

@@ -404,9 +404,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.01, y: 0.07, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1766872829}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &585662689
@@ -2132,12 +2133,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1766872801}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.99, y: -1.98, z: -0.052163273}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.98, y: -2.05, z: -0.052163273}
   m_LocalScale: {x: 1.78114, y: 2.05523, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 554206578}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1955560010
 PrefabInstance:
@@ -2149,7 +2150,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1582752221307090255, guid: d30a57e9befb7e84e9701422754e7ba4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.0472779
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1582752221307090255, guid: d30a57e9befb7e84e9701422754e7ba4, type: 3}
       propertyPath: m_LocalScale.y
@@ -2161,11 +2162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1582752221307090255, guid: d30a57e9befb7e84e9701422754e7ba4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.45
+      value: 14.92
       objectReference: {fileID: 0}
     - target: {fileID: 1582752221307090255, guid: d30a57e9befb7e84e9701422754e7ba4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.6
+      value: -15.07
       objectReference: {fileID: 0}
     - target: {fileID: 1582752221307090255, guid: d30a57e9befb7e84e9701422754e7ba4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2298,7 +2299,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 554206578}
-  - {fileID: 1766872829}
   - {fileID: 585662693}
   - {fileID: 960725064}
   - {fileID: 1301147194}

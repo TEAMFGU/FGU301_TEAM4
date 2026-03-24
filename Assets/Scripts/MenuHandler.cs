@@ -1,20 +1,59 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement; // Thư viện này đã bao gồm quản lý Scene rồi
+using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
-    void Update()
+    private NameInputHandler nameInputHandler;
+
+    private void Start()
     {
-        // Nếu nhấn Z thì tự động gọi hàm chuyển cảnh
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            StartNewGame();
-        }
+        // Tìm NameInputHandler trong scene
+        nameInputHandler = FindFirstObjectByType<NameInputHandler>();
     }
+
+    // ========== Start Menu Buttons ==========
 
     public void StartNewGame()
     {
-        // SỬA CHỖ NÀY: Bỏ chữ "SceneManagement." đi, chỉ để SceneManager thôi
-        SceneManager.LoadScene("Scene_Map001_Home");
+        // Mở panel nhập tên thay vì load scene ngay
+        if (nameInputHandler != null)
+        {
+            nameInputHandler.OpenNameInputPanel();
+        }
+        else
+        {
+            Debug.LogError("❌ NameInputHandler không tìm thấy trong scene!");
+        }
+    }
+
+    public void ContinueGame()
+    {
+        if (SaveSystem.Instance == null)
+        {
+            Debug.LogWarning("⚠️ SaveSystem chưa được khởi tạo!");
+            return;
+        }
+
+        if (!SaveSystem.Instance.HasSaveFile())
+        {
+            Debug.LogWarning("⚠️ Không tìm thấy file save! Hãy bắt đầu game mới.");
+            return;
+        }
+
+        bool success = SaveSystem.Instance.LoadGame();
+        if (success)
+        {
+            SaveData data = SaveSystem.Instance.GetCurrentSaveData();
+            string sceneToLoad = string.IsNullOrEmpty(data.currentScene)
+                ? "Scene_Map001_Home"
+                : data.currentScene;
+            SceneManager.LoadScene(sceneToLoad);
+        }
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Thoát game!");
+        Application.Quit();
     }
 }

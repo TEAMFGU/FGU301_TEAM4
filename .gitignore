@@ -1,0 +1,86 @@
+# =============================================================
+# Unity .gitignore – FPT Adventure (Unity 6, 6000.3.11f1)
+# Ref: https://github.com/github/gitignore/blob/main/Unity.gitignore
+# =============================================================
+
+# ── Thư mục tự sinh bởi Unity (KHÔNG commit) ─────────────────
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+/[Bb]uildSettings/
+/[Aa]sset[Ss]tore/
+
+# ── Build output ──────────────────────────────────────────────
+/[Bb]uild/
+/[Bb]uilds/
+*.apk
+*.aab
+*.ipa
+*.unitypackage
+*.app
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+
+# ── UserSettings: layout/prefs riêng của từng máy ────────────
+# LƯU Ý: Packages/manifest.json & packages-lock.json PHẢI commit
+/[Uu]ser[Ss]ettings/
+
+# ── Visual Studio / Rider / VS Code (file tự sinh) ───────────
+*.sln
+*.slnx
+*.csproj
+*.unityproj
+*.suo
+*.user
+*.userprefs
+*.csproj.user
+*.sln.DotSettings.user
+*.sublime-workspace
+*.code-workspace
+.vs/
+.idea/
+.vscode/
+
+# ── Debug / symbol files ──────────────────────────────────────
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+*.stackdump
+sysinfo.txt
+
+# ── Archive / large files ─────────────────────────────────────
+*.zip
+*.rar
+*.7z
+
+# ── Misc temp ─────────────────────────────────────────────────
+*.tmp
+*.TMP
+*.bak
+*.swp
+*.swo
+*~
+
+# ── OS generated ──────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# ── Addressables (khi dùng sau này) ──────────────────────────
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/**/[Bb]uildProcessorCache
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*

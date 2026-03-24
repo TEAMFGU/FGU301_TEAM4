@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b44c43420214941a398b4f8ea9b4fd, type: 3}
+  m_Name: NPC_Jessica
+  m_EditorClassIdentifier: Assembly-CSharp::NPCData
+  npcName: "Jessica (H\u1EA3i)"
+  description: "\"C\xF4 g\xE1i\" slay queen n\xE0y l\xE0 m\u1ED9t ch\xE0ng trai.
+    C\xF3 t\xECnh c\u1EA3m v\u1EDBi Tony Th\u1EAFng. "
+  initialAffection: 0
+  routeType: Normal
+  level: 1
+  affection: 0
+  unlockedCutscene50: 0
+  unlockedCutscene100: 0

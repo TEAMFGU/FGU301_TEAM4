@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b44c43420214941a398b4f8ea9b4fd, type: 3}
+  m_Name: NPC_Grab2
+  m_EditorClassIdentifier: Assembly-CSharp::NPCData
+  npcName: Grab 2
+  description: "Anh ch\xE0ng \u0111\xF4i m\u01B0\u01A1i, ch\u1EA1y grab m\u01B0u
+    sinh c\xF3 l\xE0n da ng\u0103m."
+  initialAffection: 0
+  routeType: Normal
+  level: 1
+  affection: 0
+  unlockedCutscene25: 0
+  unlockedCutscene50: 0
+  unlockedCutscene75: 0
+  unlockedCutscene100: 0

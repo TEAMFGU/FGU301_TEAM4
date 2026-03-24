@@ -122,4 +122,17 @@ public class DailyQuestManager : MonoBehaviour
     }
 
     public bool IsCompleted(string id) => completedIDs.Contains(id);
+    // Gọi khi tương tác với object
+    public void OnInteractObject(string objectName)
+    {
+        foreach (var quest in todayQuests)
+        {
+            if (quest.questType == QuestData.QuestType.InteractObject &&
+                quest.targetObjectName == objectName &&
+                !completedIDs.Contains(quest.questID))
+            {
+                CompleteQuest(quest);
+            }
+        }
+    }
 }

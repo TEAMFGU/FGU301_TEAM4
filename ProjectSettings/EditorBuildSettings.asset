@@ -5,25 +5,35 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scene_Map001_Home.unity
     guid: 83ba69474cde0384f88244bc6eb4e530
   - enabled: 1
+    path: Assets/Scenes/StartMenu.unity
+    guid: 59806b6d9e3940b42a3b2100adcb2a44
+  - enabled: 1
+    path: Assets/Scenes/Cutsence0/Map00_BenXe.unity
+    guid: c1f795021854514418ee7ac8a9f41f33
+  - enabled: 1
+    path: Assets/Scenes/Cutsence0/Map000_Strange_guy.unity
+    guid: 172ea7b0e9c6f67428af87ebafa86374
+  - enabled: 1
     path: Assets/Scenes/Home.unity
     guid: 1625ebd35fd2493459998874e7d57a91
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Park.unity
     guid: d3ec00fb989cffd4b94480d0f2b37d11
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/schoolyard.unity
     guid: 49cd30fb3ac5a224eae1d22c25be5670
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Lobby.unity
     guid: 790adb501cc91b14ead09520f5b165ba
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Class.unity
     guid: 3bb9bf719ac557d41a0503153997d606
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Carteria.unity
     guid: 925691fc97d5a36479c98c92891e59be
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

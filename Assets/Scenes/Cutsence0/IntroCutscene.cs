@@ -33,6 +33,9 @@ public class IntroCutscene : MonoBehaviour
     bool canStartChasing = false;
     bool isCutsceneEnding = false;
     string playerName;
+    GameObject[] npcInstances;
+    Rigidbody2D[] npcRigidbodies;
+    Animator playerAnim;
 
     void Start()
     {
@@ -47,6 +50,9 @@ public class IntroCutscene : MonoBehaviour
         foreach (var mark in exclamationMarks) mark.SetActive(false);
         if (playerMovement != null) playerMovement.enabled = false;
 
+        npcInstances = new GameObject[npcs.Length];
+        npcRigidbodies = new Rigidbody2D[npcs.Length];
+        if (player != null) playerAnim = player.GetComponent<Animator>();
         StartCoroutine(PlayIntroSequence());
     }
 
@@ -59,6 +65,13 @@ public class IntroCutscene : MonoBehaviour
         StartCoroutine(TypeText("Sau khi kết thúc hành trình 12 năm học...\n" + playerName + " đã chọn FPT..."));
 
         // Nhân vật bắt đầu đi bộ ngay lập tức
+        if (playerAnim != null)
+        {
+            playerAnim.SetBool("IsMoving", true);
+            playerAnim.SetFloat("Horizontal", 0f);
+            playerAnim.SetFloat("Vertical", 1f);
+        }
+
         float timer = 0f;
         while (timer < walkTime)
         {
@@ -67,13 +80,19 @@ public class IntroCutscene : MonoBehaviour
             yield return null;
         }
 
+        if (playerAnim != null)
+        {
+            playerAnim.SetBool("IsMoving", false);
+            playerAnim.SetFloat("Vertical", 1f);
+        }
+
         // 2. Xuất hiện NPC và dấu chấm than
         for (int i = 0; i < npcs.Length; i++)
         {
             if (npcs[i] != null)
             {
-                npcs[i].transform.position = npcSpawnPoints[i].position;
-                npcs[i].SetActive(true);
+                npcInstances[i] = Instantiate(npcs[i], npcSpawnPoints[i].position, Quaternion.identity);
+                npcRigidbodies[i] = npcInstances[i].GetComponent<Rigidbody2D>();
                 if (exclamationMarks.Length > i) exclamationMarks[i].SetActive(true);
             }
         }
@@ -102,6 +121,10 @@ public class IntroCutscene : MonoBehaviour
 
     void Update()
     {
+    }
+
+    void FixedUpdate()
+    {
         if (canStartChasing && !isCutsceneEnding)
         {
             MoveNPCsTowardsPlayer();
@@ -111,23 +134,39 @@ public class IntroCutscene : MonoBehaviour
     void MoveNPCsTowardsPlayer()
     {
         float speed = autoWalkSpeed * npcFollowSpeedRatio;
-        foreach (GameObject npc in npcs)
+        for (int i = 0; i < npcInstances.Length; i++)
         {
-            if (npc != null)
+            GameObject npc = npcInstances[i];
+            if (npc == null) continue;
+
+            if (npcRigidbodies[i] != null)
             {
-                npc.transform.position = Vector2.MoveTowards(npc.transform.position, player.position, speed * Time.deltaTime);
-                if (Vector2.Distance(npc.transform.position, player.position) < 0.5f)
-                {
-                    StartCoroutine(TriggerXeOmDialogue());
-                }
+                Vector2 direction = ((Vector2)player.position - npcRigidbodies[i].position).normalized;
+                npcRigidbodies[i].linearVelocity = direction * speed;
+            }
+            else
+            {
+                npc.transform.position = Vector2.MoveTowards(npc.transform.position, player.position, speed * Time.fixedDeltaTime);
+            }
+
+            if (Vector2.Distance(npc.transform.position, player.position) < 0.5f)
+            {
+                StartCoroutine(TriggerXeOmDialogue());
             }
         }
+    }
+
+    void StopAllNPCs()
+    {
+        foreach (var rb in npcRigidbodies)
+            if (rb != null) rb.linearVelocity = Vector2.zero;
     }
 
     IEnumerator TriggerXeOmDialogue()
     {
         isCutsceneEnding = true;
         canStartChasing = false;
+        StopAllNPCs();
         if (playerMovement != null) playerMovement.enabled = false;
 
         if (dialoguePanel != null) dialoguePanel.SetActive(true);

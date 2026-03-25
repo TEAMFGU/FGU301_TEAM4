@@ -15,9 +15,12 @@ MonoBehaviour:
   npcName: "Harry (H\u1EA3i)"
   description: "Cao, \u0111\u1EB9p trai, th\xEDch bida, th\xE2n thi\u1EC7n, hay r\u1EE7
     ch\u01A1i th\u1EC3 thao"
+  faceSprite: {fileID: 21300000, guid: c6329536c9f43be44925087ac9ba8df9, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

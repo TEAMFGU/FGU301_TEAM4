@@ -35,5 +35,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Carteria.unity
     guid: 925691fc97d5a36479c98c92891e59be
+  - enabled: 0
+    path: Assets/Scenes/EatWall.unity
+    guid: 86851cfa687694540aee59f9f7aaf531
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

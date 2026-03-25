@@ -15,6 +15,7 @@ MonoBehaviour:
   npcName: Grab 3
   description: "M\u1ED9t ch\xFA trung ni\xEAn b\u1EE5ng bia ch\u1EA1y grab, tr\xF4ng
     c\xF3 v\u1EBB th\xE2n thi\u1EC7n (ch\u1EAFc v\u1EADy)."
+  faceSprite: {fileID: 21300000, guid: d3f882c617a17f94c82bedb9d94f5180, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1

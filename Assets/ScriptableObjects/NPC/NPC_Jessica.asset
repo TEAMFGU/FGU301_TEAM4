@@ -15,9 +15,12 @@ MonoBehaviour:
   npcName: "Jessica (H\u1EA3i)"
   description: "\"C\xF4 g\xE1i\" slay queen n\xE0y l\xE0 m\u1ED9t ch\xE0ng trai.
     C\xF3 t\xECnh c\u1EA3m v\u1EDBi Tony Th\u1EAFng. "
+  faceSprite: {fileID: 21300000, guid: 4b934765127b3c94f9faf2264e2da527, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

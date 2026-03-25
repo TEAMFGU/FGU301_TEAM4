@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7218653492539392650}
   - component: {fileID: 4442674702789529428}
   - component: {fileID: 1350260053674795858}
-  - component: {fileID: 7233130237946742423}
+  - component: {fileID: -8767491128795752341}
   - component: {fileID: 1442887915342114315}
   m_Layer: 7
   m_Name: QuanShiba
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.467, y: -0.474, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -144,8 +144,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7233130237946742423
-BoxCollider2D:
+--- !u!58 &-8767491128795752341
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -179,17 +179,7 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.39, y: 0.47}
-    newSize: {x: 0.39, y: 0.47}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.37, y: 0.46}
-  m_EdgeRadius: 0
+  m_Radius: 1.5
 --- !u!114 &1442887915342114315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +214,13 @@ MonoBehaviour:
     affectionChange: 0
     stressChange: 0
     studyChange: 0
+  onAffection25:
+    m_PersistentCalls:
+      m_Calls: []
   onAffection50:
+    m_PersistentCalls:
+      m_Calls: []
+  onAffection75:
     m_PersistentCalls:
       m_Calls: []
   onAffection100:

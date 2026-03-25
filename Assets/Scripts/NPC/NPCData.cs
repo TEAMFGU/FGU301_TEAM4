@@ -8,6 +8,9 @@ public class NPCData : ScriptableObject
     [TextArea(3, 6)]
     public string description = "Tính cách + vai trò";
 
+    [Header("Avatar")]
+    public Sprite faceSprite;                 // Hình đại diện khuôn mặt
+
     [Header("Chỉ số khởi đầu")]
     public float initialAffection = 0f;        // % thiện cảm bắt đầu
     public string routeType = "Normal";        // Bad / Good / Dead / Happy / Normal

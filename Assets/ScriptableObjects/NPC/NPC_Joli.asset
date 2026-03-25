@@ -15,9 +15,12 @@ MonoBehaviour:
   npcName: Joli
   description: "B\u1EA1n th\xE2n c\u1EE7a H\u01B0ng l\u1EDBn. C\xF4 n\xE0ng l\xE0
     b\u1EA1ch nguy\u1EC7t quang m\u1ECDi nh\xE0, xinh \u0111\u1EB9p nh\u1EA5t l\u1EDBp."
+  faceSprite: {fileID: 21300000, guid: b992ce1b091d0f3499162c00398e3577, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

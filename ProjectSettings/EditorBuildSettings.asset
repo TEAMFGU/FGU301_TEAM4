@@ -38,5 +38,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EatWall.unity
     guid: 86851cfa687694540aee59f9f7aaf531
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
   m_UseUCBPForAssetBundles: 0

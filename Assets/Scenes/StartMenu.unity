@@ -613,6 +613,7 @@ MonoBehaviour:
   dayManagerPrefab: {fileID: 7602450691114266472, guid: 10867ea3dc864b64881b7808ecfedf92, type: 3}
   uiManagerPrefab: {fileID: 1528090092694128056, guid: b5b8cab0a53947d419de27120df43399, type: 3}
   dialogueManagerPrefab: {fileID: 542467786823202179, guid: 485dba3d7e7deed488b363de58d05f67, type: 3}
+  menuManagerPrefab: {fileID: 4897950678446427902, guid: 3503dcb1b75e92448ae51d697826e233, type: 3}
 --- !u!4 &523568983
 Transform:
   m_ObjectHideFlags: 0

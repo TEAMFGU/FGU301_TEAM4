@@ -1,3 +1,5 @@
+File: .github\copilot-instructions.md
+````````markdown
 # FPT Adventure – GitHub Copilot Agent Instructions
 
 > **Mục đích file này:** Cung cấp toàn bộ context về dự án game **FPT Adventure** để Copilot Agent trong Visual Studio hiểu đúng cấu trúc, logic game, quy ước đặt tên, và có thể hỗ trợ code, debug, generate script một cách chính xác.
@@ -131,6 +133,7 @@ Assets/
 - 4 mốc cutscene: 25%, 50%, 75%, 100% → trigger `UnityEvent`
 - `DialogueSlot[]` hỗ trợ: npcText, playerChoices, affectionChange, stressChange, studyChange
 - `currentLevel` 1→4, tăng mỗi lần tương tác
+- **Loại bỏ chỉ số Money khỏi gameplay**. Không sử dụng `AddMoney` hoặc `moneyChange` trong `NPC_Interactor` và các script liên quan.
 
 ### TeleportPortal.cs
 - Nhấn `E` mở menu chọn điểm đến
@@ -171,7 +174,6 @@ Assets/
 public class PlayerStats
 {
     public string playerName;
-    public int money = 5_000_000;           // VNĐ (trừ 200k xe ôm + 500k cọc nhà)
     public int academicScore = 0;           // Học lực: 0–100, cần >= 60 pass môn
     public int stress = 0;                  // Stress: 0–100, >= 80 warning
     public int currentDay = 1;
@@ -207,6 +209,8 @@ public class PlayerStats
 ---
 
 ## 🏁 Hệ Thống Ending
+
+GamePlay sẽ bao gồm 30 ngày, mỗi ngày 3 buổi (Sáng, Chiều, Tối). Sau ngày 30, hệ thống sẽ tự động kiểm tra điều kiện để quyết định ending nào sẽ trigger.
 
 | Ending | Điều kiện |
 |---|---|
@@ -352,6 +356,7 @@ Player dùng **2 Blend Tree** riêng biệt trong `PlayerAnimator.controller`:
 9. **Bad Ending Thông** kết thúc bằng chuỗi sự kiện tự động sau Contact 4.
 10. **Chuyển scene** hiện dùng `PlayerPrefs` + `SpawnPoint` pattern, chưa có `DontDestroyOnLoad`.
 11. **NPC affection mốc**: 25%, 50%, 75%, 100% – mỗi mốc trigger `UnityEvent` 1 lần duy nhất.
+12. Ưu tiên sử dụng thao tác trên unity (các game object và component đính kèm script) thay vì code sinh ra UI chay, vì code sinh ra UI chay rất xấu và khó chỉnh sửa.
 
 ---
 
@@ -389,17 +394,11 @@ Mỗi ngày **3 NPC vắng mặt** theo chu kỳ 4 ngày, vị trí spawn random
 - **Cập nhật**: Tự động refresh mỗi khi `DayManager` thay đổi `currentDay` hoặc `currentTime`.
 - **Implement**: Là một `Canvas` với `DontDestroyOnLoad`, chứa **TextMeshPro** text.
 - **Script**: `UIManager.cs` lắng nghe sự kiện từ `DayManager` và cập nhật text.
-
-```
 ┌─────────────────────────────────────────┐
 │ [Ngày 1 – Sáng]          [Stats HUD...] │  ← Top-left
 │                                         │
 │           (Game Scene)                  │
-└─────────────────────────────────────────┘
-```
-
-```csharp
-// UIManager.cs – cập nhật text ngày
+└─────────────────────────────────────────┘// UIManager.cs – cập nhật text ngày
 private void UpdateDayUI()
 {
     string session = DayManager.Instance.CurrentTime switch
@@ -411,8 +410,6 @@ private void UpdateDayUI()
     };
     dayText.text = $"Ngày {DayManager.Instance.CurrentDay} – {session}";
 }
-```
-
 ---
 
 ## 🖥️ Giao Diện Menu (Nhấn X)
@@ -483,8 +480,6 @@ Tạo một Scene mới tên là **`StartMenu`** (thêm vào Build Settings ở 
 - Tên này được dùng xuyên suốt game qua `PlayerPrefs.GetString("PlayerName")`.
 - Placeholder trong dialogue dùng `{playerName}` → replace runtime bằng tên đã lưu.
 - **Lưu ý**: Không cho phép tên rỗng – validate trước khi xác nhận.
-
-```csharp
 // Trong MenuHandler.cs
 public void ConfirmPlayerName(string inputName)
 {
@@ -493,8 +488,6 @@ public void ConfirmPlayerName(string inputName)
     PlayerPrefs.Save();
     SceneManager.LoadScene("Map00_BenXe");
 }
-```
-
 ---
 
 ## 💾 Hệ Thống Save/Load (SaveSystem.cs)
@@ -502,14 +495,12 @@ public void ConfirmPlayerName(string inputName)
 Lưu tiến trình ra file **JSON** trong folder `Assets/Save/` (runtime: `Application.dataPath/Save/`).
 
 ### SaveData – Dữ liệu cần lưu
-```csharp
 [System.Serializable]
 public class SaveData
 {
     public string currentScene;
     public int academicScore;
     public int stress;
-    public int money;
     public int currentDay;
     // Thiện cảm từng NPC
     public int aff_Harry;
@@ -526,11 +517,7 @@ public class SaveData
     public int aff_TonyThang;
     public int aff_UyenChi;
 }
-```
-
-### SaveSystem.cs
-```csharp
-using UnityEngine;
+### SaveSystem.csusing UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 
@@ -568,8 +555,6 @@ public class SaveSystem : MonoBehaviour
         SceneManager.LoadScene(data.currentScene);
     }
 }
-```
-
 - File save lưu tại: `[ProjectRoot]/Assets/Save/savegame.json`
 - Thêm `Assets/Save/` vào `.gitignore` để không commit file save lên repo.
 

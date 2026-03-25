@@ -15,9 +15,12 @@ MonoBehaviour:
   npcName: "Ki\u1EC1u Vy"
   description: "Gi\u1EA3 t\u1EA1o, d\u1EC5 th\u01B0\u01A1ng khi online nh\u01B0ng
     toxic in real life."
+  faceSprite: {fileID: 21300000, guid: dd727ff735b086947bc1ad6c995fc99e, type: 3}
   initialAffection: 0
   routeType: Special
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

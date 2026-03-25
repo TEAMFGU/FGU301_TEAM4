@@ -15,6 +15,7 @@ MonoBehaviour:
   npcName: "Nh\xE0 m\xF4i gi\u1EDBi b\xED \u1EA9n"
   description: "Ng\u01B0\u1EDDi \u0111\xE0n \xF4ng b\xED \u1EA9n l\xE0m m\xF4i gi\u1EDBi,
     kh\xF4ng c\xF3 th\xF4ng tin c\u1EE5 th\u1EC3 v\u1EC1 h\u1EAFn ta."
+  faceSprite: {fileID: 21300000, guid: a56bc4518cef65c4290a4bdc69f48c20, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1

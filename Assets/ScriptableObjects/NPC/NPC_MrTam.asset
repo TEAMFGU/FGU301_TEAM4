@@ -16,9 +16,12 @@ MonoBehaviour:
   description: "Gi\u1EA3ng vi\xEAn \u0111\u1EA1i h\u1ECDc FPT H\u1ED3 Ch\xED Minh.
     Th\u1EA7y c\xF3 2 th\u1EA1c s\u0129, nh\xECn nghi\xEAm kh\u1EAFc nh\u01B0ng th\xE2n
     thi\u1EC7n, th\u01B0\u01A1ng h\u1ECDc tr\xF2."
+  faceSprite: {fileID: 21300000, guid: 6c3ddd52ab0adbb42a00afe0e1b0e94f, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

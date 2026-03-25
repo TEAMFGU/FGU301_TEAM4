@@ -315,6 +315,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8492726108683214703, guid: e8f39a26354e6e8478d57ef322e3ff50, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 146439646430374691, guid: e8f39a26354e6e8478d57ef322e3ff50, type: 3}
       propertyPath: m_Name
       value: NhanLe
@@ -412,6 +416,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3364463040701266243, guid: 385ed65445ea22a408f027872f00adb7, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 3733556570336211287, guid: 385ed65445ea22a408f027872f00adb7, type: 3}
       propertyPath: m_Name
       value: Thong
@@ -486,6 +494,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3569316296584660707, guid: d0514cf8012e2db4a80a36192ec475b7, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 5988955464925938518, guid: d0514cf8012e2db4a80a36192ec475b7, type: 3}
       propertyPath: m_Name
       value: KieuVy
@@ -543,6 +555,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1987297093067496004, guid: d9ffa5f89380b3545bd0b2a9b2a9c993, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 3319846067168234226, guid: d9ffa5f89380b3545bd0b2a9b2a9c993, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -672,6 +688,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: NPC
       objectReference: {fileID: 0}
+    - target: {fileID: 6493855011122461492, guid: e4b9ddf50ab179249ad24a11a0144bc4, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 8158188905439880119, guid: e4b9ddf50ab179249ad24a11a0144bc4, type: 3}
       propertyPath: m_SortingLayer
       value: 2
@@ -689,7 +709,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3826147481781958443, guid: e4b9ddf50ab179249ad24a11a0144bc4, type: 3}
-      insertIndex: -1
+      insertIndex: 3
       addedObject: {fileID: 1645833942}
   m_SourcePrefab: {fileID: 100100000, guid: e4b9ddf50ab179249ad24a11a0144bc4, type: 3}
 --- !u!1001 &4645429525618762146
@@ -700,6 +720,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8767491128795752341, guid: 7ccf876333f0db448818b370df4ec730, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 1256601656604436999, guid: 7ccf876333f0db448818b370df4ec730, type: 3}
       propertyPath: m_Name
       value: QuanShiba
@@ -757,6 +781,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4351898458946889465, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 2123894556989270507, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
       propertyPath: m_Name
       value: Mr.Tam
@@ -769,19 +797,19 @@ PrefabInstance:
       propertyPath: m_TagString
       value: NPC
       objectReference: {fileID: 0}
-    - target: {fileID: 4708970540613198342, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
+    - target: {fileID: 0}
       propertyPath: m_Size.x
       value: 0.31990576
       objectReference: {fileID: 0}
-    - target: {fileID: 4708970540613198342, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
+    - target: {fileID: 0}
       propertyPath: m_Size.y
       value: 0.4873829
       objectReference: {fileID: 0}
-    - target: {fileID: 4708970540613198342, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
+    - target: {fileID: 0}
       propertyPath: m_Offset.x
       value: -0.003738165
       objectReference: {fileID: 0}
-    - target: {fileID: 4708970540613198342, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
+    - target: {fileID: 0}
       propertyPath: m_Offset.y
       value: -0.0037386417
       objectReference: {fileID: 0}
@@ -842,7 +870,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2123894556989270507, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
-      insertIndex: -1
+      insertIndex: 3
       addedObject: {fileID: 665194590}
   m_SourcePrefab: {fileID: 100100000, guid: 6bb859c27d5382d4f9489c42f405b15a, type: 3}
 --- !u!1001 &6397283420794209225
@@ -853,6 +881,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1382731450108319201, guid: 878275da409c16f4eb3571d38bdddef0, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 2324173670420181353, guid: 878275da409c16f4eb3571d38bdddef0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.49
@@ -910,6 +942,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1115352450119467858, guid: b22485773bb255144ad5f73d5d67b5bd, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 3704301566780205467, guid: b22485773bb255144ad5f73d5d67b5bd, type: 3}
       propertyPath: m_Name
       value: Jessica
@@ -1024,6 +1060,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1048556781089974167, guid: 47e238bfa28aa6f43951b30791d7e045, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 5649692189199785034, guid: 47e238bfa28aa6f43951b30791d7e045, type: 3}
       propertyPath: m_Name
       value: HungSmall
@@ -1138,6 +1178,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1095037288251702516, guid: 82e1cb46ab9e8884798a55c72da0c3be, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 2193847470793592653, guid: 82e1cb46ab9e8884798a55c72da0c3be, type: 3}
       propertyPath: m_Name
       value: UyenChi
@@ -1275,6 +1319,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1643906094583615546, guid: 1eb054a55c1000448a45c3a1fd9957a7, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 5060750107512329633, guid: 1eb054a55c1000448a45c3a1fd9957a7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.494
@@ -1332,6 +1380,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3318783030329021550, guid: 3628ab22659d0324eb6f6268a803cde2, type: 3}
+      propertyPath: m_Radius
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 2199557466924036966, guid: 3628ab22659d0324eb6f6268a803cde2, type: 3}
       propertyPath: m_Name
       value: MinhAnh

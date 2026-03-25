@@ -16,9 +16,12 @@ MonoBehaviour:
   description: "H\u1ECDc b\xE1, b\xE9o, mi\u1EC1n T\xE2y, tr\u1EA7m t\xEDnh, h\u1ECDc
     gi\u1ECFi nh\u01B0ng \xEDt n\xF3i, hay gi\xFAp \u0111\u1EE1 b\xE0i v\u1EDF, \u0111\xE1ng
     tin c\u1EADy"
+  faceSprite: {fileID: 21300000, guid: 3a29a80fdd737214bb5064aca13929e5, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

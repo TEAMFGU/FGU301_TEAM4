@@ -15,9 +15,12 @@ MonoBehaviour:
   npcName: "H\u01B0ng L\u1EDBn (Gia H\u01B0ng)"
   description: "C\u1EADu nh\xF3c Rich Kid n\xE0y l\xE0 m\u1ED9t ph\u01B0\u1EE3t th\u1EE7,
     song l\u1EA1i h\u01B0\u1EDBng n\u1ED9i."
+  faceSprite: {fileID: 21300000, guid: 696f32cd511513c4e83eb252a01edb48, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

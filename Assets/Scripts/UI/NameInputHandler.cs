@@ -11,9 +11,10 @@ public class NameInputHandler : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
 
+    private MenuHandler menuHandler;
+
     private void OnEnable()
     {
-        // Khi panel hiển thị, focus vào InputField
         if (inputField != null)
         {
             inputField.Select();
@@ -23,21 +24,18 @@ public class NameInputHandler : MonoBehaviour
 
     private void Start()
     {
-        // Gán callback cho buttons
+        menuHandler = FindFirstObjectByType<MenuHandler>();
+
         if (confirmButton != null)
             confirmButton.onClick.AddListener(OnConfirmButtonPressed);
         
         if (cancelButton != null)
             cancelButton.onClick.AddListener(OnCancelButtonPressed);
 
-        // Gán callback khi nhấn Enter trong InputField
         if (inputField != null)
             inputField.onSubmit.AddListener(OnInputSubmit);
     }
 
-    /// <summary>
-    /// Nhấn nút Xác Nhận hoặc Enter
-    /// </summary>
     private void OnConfirmButtonPressed()
     {
         ConfirmPlayerName();
@@ -58,7 +56,7 @@ public class NameInputHandler : MonoBehaviour
         // Validate: không cho phép tên rỗng
         if (string.IsNullOrWhiteSpace(playerName))
         {
-            Debug.LogWarning("❌ Tên người chơi không được để trống!");
+            Debug.LogWarning("Tên người chơi không được để trống!");
             inputField.text = "";
             inputField.Select();
             return;
@@ -67,15 +65,14 @@ public class NameInputHandler : MonoBehaviour
         // Lưu tên vào PlayerPrefs
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.Save();
-        Debug.Log($"✅ Lưu tên người chơi: {playerName}");
 
-        // Load scene chính (Map00_BenXe - intro)
+        // ✨ THÊM: Instantiate DayManager + UIManager TẠI ĐÂY
+        if (menuHandler != null)
+            menuHandler.InitializePersistentManagers();
+
         SceneManager.LoadScene("Map00_BenXe");
     }
 
-    /// <summary>
-    /// Nhấn nút Hủy - quay lại menu
-    /// </summary>
     private void OnCancelButtonPressed()
     {
         inputField.text = "";
@@ -83,9 +80,6 @@ public class NameInputHandler : MonoBehaviour
         if (menuPanel != null) menuPanel.SetActive(true);
     }
 
-    /// <summary>
-    /// Mở panel nhập tên
-    /// </summary>
     public void OpenNameInputPanel()
     {
         inputField.text = "";

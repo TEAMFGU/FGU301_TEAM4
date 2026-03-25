@@ -16,9 +16,12 @@ MonoBehaviour:
   description: "\u0102n ch\u01A1i, bad boy, th\xEDch t\u1EE5 t\u1EADp, hay r\u1EE7
     r\xEA \u0111i bar/pub, ki\u1EC3u \"\u0111\u1EA7u g\u1EA5u\" nh\u01B0ng c\xF3
     s\u1EE9c h\xFAt ri\xEAng"
+  faceSprite: {fileID: 21300000, guid: ef1ede0b70c850549a1624f0cd380f92, type: 3}
   initialAffection: 0
   routeType: Bad
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

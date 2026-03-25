@@ -15,9 +15,12 @@ MonoBehaviour:
   npcName: "Tony (Th\u1EAFng)"
   description: "Cao, \u0111\u1EB9p trai, d\u1ECBu d\xE0ng, l\u1ECBch s\u1EF1, hay
     khen ng\u1EE3i v\xE0 \u0111\u1ED9ng vi\xEAn ng\u01B0\u1EDDi kh\xE1c"
+  faceSprite: {fileID: 21300000, guid: f64418391b984f64cb138a2b4a635a6e, type: 3}
   initialAffection: 0
   routeType: Normal
   level: 1
   affection: 0
+  unlockedCutscene25: 0
   unlockedCutscene50: 0
+  unlockedCutscene75: 0
   unlockedCutscene100: 0

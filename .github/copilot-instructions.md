@@ -17,7 +17,7 @@
 | **Input** | Both (Legacy Input + New Input System) – `activeInputHandler: 2` |
 | **IDE** | Visual Studio Community 2026 |
 | **Git branch chính** | `main` |
-| **Remote** | `https://github.com/HuyCow/FGU301_TEAM4` |
+| **Remote** | `https://github.com/TEAMFGU/FGU301_TEAM4` |
 
 **Mô tả:** Game mô phỏng cuộc sống sinh viên mới nhập học ĐH FPT (Thủ Đức, TP.HCM). Người chơi trải qua daily loop gồm học tập, kết bạn, quản lý tài chính và stress, dẫn đến nhiều kết thúc khác nhau tùy theo lựa chọn.
 
@@ -327,7 +327,9 @@ Player dùng **2 Blend Tree** riêng biệt trong `PlayerAnimator.controller`:
 |---|---|---|
 | `InteractionManager` | ✅ Đã có | Singleton, xử lý Z/X input |
 | `PlayerDataManager` | ❌ Chưa có | Lưu/đọc PlayerStats, persist qua scene |
-| `DialogueManager` | ❌ Chưa có | Quản lý UI hộp thoại |
+| `DialogueManager` | ❌ Chưa có | Quản lý UI hộp thoại, avatar NPC, name tag |
+| `MenuManager` | ❌ Chưa có | Singleton, DontDestroyOnLoad, xử lý Menu X (Status/Save/Quit) |
+| `SaveSystem` | ❌ Chưa có | Singleton, DontDestroyOnLoad, lưu/load JSON vào `Assets/Save/` |
 | `CutsceneManager` | ❌ Chưa có | Trigger cutscene theo ID |
 | `DayManager` | ❌ Chưa có | Quản lý ngày, reset interactedToday |
 | `NPCSpawnManager` | ❌ Chưa có | Spawn NPC theo lịch ngày |
@@ -356,13 +358,253 @@ Player dùng **2 Blend Tree** riêng biệt trong `PlayerAnimator.controller`:
 ## 📅 Chu Kỳ Ngày (Daily Loop) – Thiết Kế
 
 ```
-[Sáng] Thức dậy → [Di chuyển] Đến trường → [Lớp học] Tiết học chính
-→ [Break Time] Tương tác NPC (1 lượt/NPC/ngày)
-→ [Lớp học] Tiết học phụ
-→ [Tối] Về phòng → Chọn hoạt động (học/lướt mạng/ngủ) → Qua ngày mới
+[SÁNG] Thức dậy → Đến trường → Tương tác NPC / Học bài
+   ↓
+[CHIỀU] Tự học / Gặp NPC hành lang / Đi với Thông
+   ↓
+[TỐI] Về phòng → Ôn bài / Đi công viên / Ngủ sớm → ⏭ Qua ngày mới
 ```
 
+### 3 Buổi Mỗi Ngày
+- Mỗi ngày gồm **3 buổi**: **Sáng → Chiều → Tối**.
+- Mỗi khi player **hoàn thành hành động** của một buổi (tương tác NPC, học bài, chọn hoạt động,...) → **tự động chuyển sang buổi tiếp theo**.
+- Hết buổi **Tối** → **sang Ngày mới** (currentDay += 1), reset `interactedToday`.
+- UI ngày hiện tại cập nhật ngay khi `currentDay` thay đổi.
+
+### Trạng Thái Buổi (TimeOfDay)
+```csharp
+public enum TimeOfDay { Morning, Afternoon, Evening }
+```
+- `DayManager` quản lý `currentDay` và `currentTime`.
+- Khi `currentTime == Evening` và player kết thúc hành động → `currentDay++`, `currentTime = Morning`.
+
 Mỗi ngày **3 NPC vắng mặt** theo chu kỳ 4 ngày, vị trí spawn random từ Day 6+.
+
+---
+
+## 🗓️ UI Ngày Hiện Tại (Day Counter HUD)
+
+- **Vị trí**: Góc **trái bên trên** màn hình, luôn hiển thị đè lên mọi scene.
+- **Nội dung**: Hiển thị ngày và buổi hiện tại. Ví dụ: `Ngày 1 – Sáng`, `Ngày 3 – Chiều`.
+- **Cập nhật**: Tự động refresh mỗi khi `DayManager` thay đổi `currentDay` hoặc `currentTime`.
+- **Implement**: Là một `Canvas` với `DontDestroyOnLoad`, chứa **TextMeshPro** text.
+- **Script**: `UIManager.cs` lắng nghe sự kiện từ `DayManager` và cập nhật text.
+
+```
+┌─────────────────────────────────────────┐
+│ [Ngày 1 – Sáng]          [Stats HUD...] │  ← Top-left
+│                                         │
+│           (Game Scene)                  │
+└─────────────────────────────────────────┘
+```
+
+```csharp
+// UIManager.cs – cập nhật text ngày
+private void UpdateDayUI()
+{
+    string session = DayManager.Instance.CurrentTime switch
+    {
+        TimeOfDay.Morning   => "Sáng",
+        TimeOfDay.Afternoon => "Chiều",
+        TimeOfDay.Evening   => "Tối",
+        _ => ""
+    };
+    dayText.text = $"Ngày {DayManager.Instance.CurrentDay} – {session}";
+}
+```
+
+---
+
+## 🖥️ Giao Diện Menu (Nhấn X)
+
+Menu được implement bằng **Canvas/Panel UI** tồn tại xuyên suốt tất cả scene (`DontDestroyOnLoad` hoặc scene riêng dạng Additive). Nhấn `X` ở bất kỳ scene nào đều mở được.
+
+### Cấu trúc Menu
+- **Điều khiển**: mũi tên `↑ ↓` để di chuyển, `Z` để chọn, `X` để quay lại / đóng menu.
+- **3 lựa chọn chính:**
+
+| Mục | Nội dung |
+|---|---|
+| **Status** | Điểm Học lực + Điểm Stress hiện tại của Player. Bên dưới là danh sách NPC gồm: tên, ảnh face (sprite), điểm thiện cảm với NPC đó. |
+| **Save** | Lưu game ra file JSON vào folder `Save/`. |
+| **Quit Game** | Thoát game (`Application.Quit()`). |
+
+### Lưu ý implement
+- Script quản lý menu: `MenuManager.cs` (Singleton, `DontDestroyOnLoad`).
+- Khi menu mở → set `Time.timeScale = 0` hoặc disable `PlayerMovement`.
+- Danh sách NPC trong Status đọc từ tất cả `NPCData` ScriptableObject đang active.
+
+---
+
+## 💬 Giao Diện Dialogue (Trò Chuyện NPC)
+
+Dialogue UI là một Canvas/Panel hiển thị khi Player tương tác với NPC (nhấn `Z`).
+
+### Cấu trúc layout
+```
+┌─────────────────────────────────────────────────────┐
+│ [Avatar]  │  Message Box (nền đen)                  │
+│  NPC      │  Script trò chuyện hiển thị ở đây...    │
+│  Face     │                                         │
+│           │                                         │
+│ [NameTag] │                                         │
+└─────────────────────────────────────────────────────┘
+```
+
+- **Message Box**: nền màu đen, text trắng, hiển thị nội dung dialogue từng dòng.
+- **Avatar**: nằm bên **trái** message box, kéo sprite face của NPC đang trò chuyện vào.
+- **Name Tag**: khung hiển thị tên NPC, nằm **dưới avatar**.
+- **Chiều cao** của message box = chiều cao avatar + name tag.
+- Sprite face NPC lấy từ field `faceSprite` trong `NPCData` ScriptableObject.
+- Điều khiển: `Z` để tiếp tục / xác nhận lựa chọn, `X` để đóng (nếu cho phép).
+
+---
+
+## 🏠 Scene StartMenu (Start Menu)
+
+Tạo một Scene mới tên là **`StartMenu`** (thêm vào Build Settings ở vị trí index 0).
+
+### Cấu trúc Scene
+- **Background**: Sprite nhân vật nữ kéo vào Canvas làm background.
+- **3 nút UI Button** (dùng uGUI + TextMeshPro để hỗ trợ tiếng Việt):
+
+| Nút | Hành động |
+|---|---|
+| **Chơi Mới** | Hiện khung nhập tên → lưu tên → Load scene `Map00_BenXe` |
+| **Chơi Tiếp** | Gọi `SaveSystem.Instance.LoadGame()` |
+| **Thoát** | `Application.Quit()` |
+
+- **Yêu cầu**: Cài **uGUI** và **TextMeshPro** (Window → Package Manager) để nút hiển thị đúng và gõ được tiếng Việt.
+
+### Nhập Tên Người Chơi (Khi nhấn "Chơi Mới")
+- Nhấn **Chơi Mới** → hiện **Panel nhập tên** (InputField + nút Xác nhận).
+- Player nhập tên → nhấn Xác nhận → lưu tên vào `PlayerPrefs.SetString("PlayerName", inputText)`.
+- Sau đó gọi `SceneManager.LoadScene("Map00_BenXe")`.
+- Tên này được dùng xuyên suốt game qua `PlayerPrefs.GetString("PlayerName")`.
+- Placeholder trong dialogue dùng `{playerName}` → replace runtime bằng tên đã lưu.
+- **Lưu ý**: Không cho phép tên rỗng – validate trước khi xác nhận.
+
+```csharp
+// Trong MenuHandler.cs
+public void ConfirmPlayerName(string inputName)
+{
+    if (string.IsNullOrWhiteSpace(inputName)) return;
+    PlayerPrefs.SetString("PlayerName", inputName.Trim());
+    PlayerPrefs.Save();
+    SceneManager.LoadScene("Map00_BenXe");
+}
+```
+
+---
+
+## 💾 Hệ Thống Save/Load (SaveSystem.cs)
+
+Lưu tiến trình ra file **JSON** trong folder `Assets/Save/` (runtime: `Application.dataPath/Save/`).
+
+### SaveData – Dữ liệu cần lưu
+```csharp
+[System.Serializable]
+public class SaveData
+{
+    public string currentScene;
+    public int academicScore;
+    public int stress;
+    public int money;
+    public int currentDay;
+    // Thiện cảm từng NPC
+    public int aff_Harry;
+    public int aff_HungBig;
+    public int aff_HungSmall;
+    public int aff_Jessica;
+    public int aff_Joli;
+    public int aff_KieuVy;
+    public int aff_MinhAnh;
+    public int aff_MrTam;
+    public int aff_NhanLe;
+    public int aff_QuanShiba;
+    public int aff_Thong;
+    public int aff_TonyThang;
+    public int aff_UyenChi;
+}
+```
+
+### SaveSystem.cs
+```csharp
+using UnityEngine;
+using System.IO;
+using UnityEngine.SceneManagement;
+
+public class SaveSystem : MonoBehaviour
+{
+    public static SaveSystem Instance { get; private set; }
+    private const string SaveFolder = "Save";
+    private const string SaveFile = "savegame.json";
+
+    private void Awake()
+    {
+        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
+        else Destroy(gameObject);
+    }
+
+    public void SaveGame()
+    {
+        SaveData data = new SaveData();
+        data.currentScene = SceneManager.GetActiveScene().name;
+        // Đọc từ PlayerDataManager.Instance hoặc NPCData assets
+        string folderPath = Path.Combine(Application.dataPath, SaveFolder);
+        if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+        string json = JsonUtility.ToJson(data, prettyPrint: true);
+        File.WriteAllText(Path.Combine(folderPath, SaveFile), json);
+        Debug.Log("Đã lưu game!");
+    }
+
+    public void LoadGame()
+    {
+        string path = Path.Combine(Application.dataPath, SaveFolder, SaveFile);
+        if (!File.Exists(path)) { Debug.LogWarning("Không tìm thấy file save!"); return; }
+        string json = File.ReadAllText(path);
+        SaveData data = JsonUtility.FromJson<SaveData>(json);
+        // Ghi lại vào PlayerDataManager và NPCData assets
+        SceneManager.LoadScene(data.currentScene);
+    }
+}
+```
+
+- File save lưu tại: `[ProjectRoot]/Assets/Save/savegame.json`
+- Thêm `Assets/Save/` vào `.gitignore` để không commit file save lên repo.
+
+---
+
+## 🔗 Kết Nối Cổng Teleport & Intro
+
+### Intro Cutscene → Map
+- Sau khi đoạn thoại Intro kết thúc, gọi: `SceneManager.LoadScene("Map00_BenXe")`
+
+### Teleport Gate
+- Tất cả cổng teleport dùng `OnTriggerEnter2D` (Box Collider 2D – **Is Trigger** = true).
+- Trước khi `LoadScene`, lưu SpawnPoint ID qua `PlayerPrefs.SetString("SpawnPoint", id)`.
+- `SpawnPoint.cs` tại scene đích đọc ID và teleport Player đến đúng vị trí.
+- **Bắt buộc**: Thêm tất cả Scene vào **Build Settings** (File → Build Settings) theo đúng thứ tự.
+
+### Thứ tự Scene khuyến nghị trong Build Settings
+
+| Index | Scene |
+|---|---|
+| 0 | `StartMenu` |
+| 1 | `Map00_BenXe` |
+| 2 | `Map000_Strange_guy` |
+| 3 | `Scene_Map001_Home` |
+| 4+ | Các scene còn lại |
+
+---
+
+## 📦 Xuất File .exe (Build Game)
+
+1. Vào **File → Build Settings**.
+2. Chọn nền tảng **Windows, Mac, Linux Standalone**.
+3. Đảm bảo tất cả Scene đã được kéo vào danh sách **Scenes In Build**.
+4. Nhấn **Build** → chọn folder output.
+5. File `.exe` và folder `_Data` cần nằm cùng thư mục để chạy được.
 
 ---
 

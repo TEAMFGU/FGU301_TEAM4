@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7526740112021955880
 Transform:
   m_ObjectHideFlags: 0
@@ -196,21 +196,25 @@ MonoBehaviour:
   dialogueLevels:
   - npcText: 
     playerChoices: []
+    choiceEffects: []
     affectionChange: 0
     stressChange: 0
     studyChange: 0
   - npcText: 
     playerChoices: []
+    choiceEffects: []
     affectionChange: 0
     stressChange: 0
     studyChange: 0
   - npcText: 
     playerChoices: []
+    choiceEffects: []
     affectionChange: 0
     stressChange: 0
     studyChange: 0
   - npcText: 
     playerChoices: []
+    choiceEffects: []
     affectionChange: 0
     stressChange: 0
     studyChange: 0

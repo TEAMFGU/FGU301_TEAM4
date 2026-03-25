@@ -20,7 +20,9 @@ public class NPC_Interactor : MonoBehaviour
     public DialogueSlot[] dialogueLevels = new DialogueSlot[4]; // Level 1 đến 4
 
     [Header("Events Cutscene")]
+    public UnityEvent onAffection25;     // Cutscene đặc biệt 25%
     public UnityEvent onAffection50;     // Cutscene đặc biệt 50%
+    public UnityEvent onAffection75;     // Cutscene đặc biệt 75%
     public UnityEvent onAffection100;    // Cutscene ending 100%
 
     private int currentLevel = 1;
@@ -44,11 +46,25 @@ public class NPC_Interactor : MonoBehaviour
         }
 
         // Kiểm tra mốc cutscene
+        if (data.affection >= 25f && !data.unlockedCutscene25)
+        {
+            data.unlockedCutscene25 = true;
+            onAffection25?.Invoke();           // Trigger cutscene đặc biệt
+            Debug.Log($"[CUTSCENE] 25% với {data.npcName}");
+        }
+
         if (data.affection >= 50f && !data.unlockedCutscene50)
         {
             data.unlockedCutscene50 = true;
             onAffection50?.Invoke();           // Trigger cutscene đặc biệt
             Debug.Log($"[CUTSCENE] 50% với {data.npcName}");
+        }
+
+        if (data.affection >= 75f && !data.unlockedCutscene75)
+        {
+            data.unlockedCutscene75 = true;
+            onAffection75?.Invoke();           // Trigger cutscene đặc biệt
+            Debug.Log($"[CUTSCENE] 75% với {data.npcName}");
         }
 
         if (data.affection >= 100f && !data.unlockedCutscene100)

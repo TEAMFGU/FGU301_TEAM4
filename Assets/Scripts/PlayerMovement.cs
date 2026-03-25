@@ -36,22 +36,13 @@ public class PlayerMovement : MonoBehaviour
         // Kiểm tra có đang di chuyển không
         bool isMoving = movement != Vector2.zero;
 
-        // Set cho Animator
-        anim.SetBool("IsMoving", isMoving);
-
         if (isMoving)
-        {
             lastDir = movement;
 
-            anim.SetFloat("MoveX", movement.x);
-            anim.SetFloat("MoveY", movement.y);
-        }
-        else
-        {
-            // Khi đứng yên → giữ hướng cũ
-            anim.SetFloat("MoveX", lastDir.x);
-            anim.SetFloat("MoveY", lastDir.y);
-        }
+        // lastDir luôn là hướng di chuyển cuối (±1) → cả Walk lẫn Idle đều dùng được
+        anim.SetBool("IsMoving", isMoving);
+        anim.SetFloat("Horizontal", lastDir.x);
+        anim.SetFloat("Vertical", lastDir.y);
     }
 
     void FixedUpdate()
@@ -59,4 +50,3 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = movement.normalized * moveSpeed;
     }
 }
-   

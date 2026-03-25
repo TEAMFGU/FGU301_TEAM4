@@ -121,7 +121,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    /// <param name="hasChoicesAfter">True nếu sau dialogue này sẽ hiện choices → hintText dòng cuối sẽ là "Tiếp tục" thay vì "Đóng"</param>
+    // ─── Dùng cho NPC trong gameplay ─────────────────────────────────────────
     public void ShowDialogue(NPCData npcData, string[] lines, Action onComplete = null, bool hasChoicesAfter = false)
     {
         if (lines == null || lines.Length == 0)
@@ -139,7 +139,8 @@ public class DialogueManager : MonoBehaviour
 
         bool hasFace = npcData != null && npcData.faceSprite != null;
         avatarImage.gameObject.SetActive(hasFace);
-
+        if (hasFace) avatarImage.sprite = npcData.faceSprite;
+        
         if (hasFace)
             avatarImage.sprite = npcData.faceSprite;
 
@@ -340,5 +341,34 @@ public class DialogueManager : MonoBehaviour
 
         if (cachedPlayerMovement != null)
             cachedPlayerMovement.canMove = enabled;
+    }
+
+    // ─── Dùng cho Cutscene (không cần NPCData) ───────────────────────────────
+    public void ShowCutsceneLine(string speakerName, Sprite avatar, string line, Action onComplete = null)
+    {
+        if (string.IsNullOrEmpty(line)) { onComplete?.Invoke(); return; }
+
+        currentLines            = new[] { line };
+        lineIndex               = 0;
+        onDialogueComplete      = onComplete;
+        isOpen                  = true;
+        isChoosingOption        = false;
+        hasChoicesAfterDialogue = false;
+
+        // Avatar
+        bool hasAvatar = avatar != null;
+        avatarImage.gameObject.SetActive(hasAvatar);
+        if (hasAvatar) avatarImage.sprite = avatar;
+
+        // Name box – parent của nameTagText là container khung tên
+        bool hasName = !string.IsNullOrEmpty(speakerName);
+        nameTagText.transform.parent.gameObject.SetActive(hasName);
+        if (hasName) nameTagText.text = speakerName;
+
+        if (choicePanel != null) choicePanel.SetActive(false);
+        if (messageText != null) messageText.gameObject.SetActive(true);
+
+        dialoguePanel.SetActive(true);
+        DisplayLine(line);
     }
 }

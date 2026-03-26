@@ -8,13 +8,13 @@ public class StrangeGuyCutscene : MonoBehaviour
     public GameObject[] guideImages;   // size=2 → [0]=ảnh1, [1]=ảnh2
 
     [Header("Cutscene Assets")]
-    public Transform  player;           
+    public Transform player;
     public GameObject strangeGuy;
-    public Sprite     playerAvatar;    // kéo sprite mặt player vào
-    public string     nextMapName = "Scene_Map001_Home";
+    public Sprite playerAvatar;    // kéo sprite mặt player vào
+    public string nextMapName = "Scene_Map001_Home";
 
     private bool hasReachedTrigger = false;
-    private bool dialogueDone      = false;
+    private bool dialogueDone = false;
 
     void Start()
     {
@@ -42,12 +42,25 @@ public class StrangeGuyCutscene : MonoBehaviour
         strangeGuy.SetActive(true);
 
         // ── 3. Dialogue + hình xuất hiện đồng thời, nhấn Z để qua dòng tiếp ─
-        yield return Line("",       null,         0,  "Nhìn mặt chú em ngơ ngơ dị chắc chắn là sinh viên mới lên Sài Gòn tìm trọ đúng ôn?");
-        yield return Line("",       null,         1,  "Chú em học trường nào? Xời FPT á hả, chú cho thuê trọ kế bên trường đây, lại đây chú giới thiệu cho.");
+        yield return Line("", null, 0, "Nhìn mặt chú em ngơ ngơ dị chắc chắn là sinh viên mới lên Sài Gòn tìm trọ đúng ôn?");
+        yield return Line("", null, 1, "Chú em học trường nào? Xời FPT á hả, chú cho thuê trọ kế bên trường đây, lại đây chú giới thiệu cho.");
         yield return Line("Player", playerAvatar, -1, "Dạ cảm ơn anh, may quá em cũng đang tìm trọ, thế này như sắp chết đuối thì vớ được phao đời!");
-        yield return Line("",       null,         0,  "Đúng đắng lắm chú em, đưa anh m cọc trước 500 đi anh m dẫn dô coi phòng luôn.");
+        yield return Line("", null, 0, "Đúng đắng lắm chú em, đưa anh m cọc trước 500 đi anh m dẫn dô coi phòng luôn.");
 
-        // ── 4. Chuyển map sau khi hết thoại ─────────────────────────────────
+        // ── Dọn dẹp trước khi chuyển scene ───────────────────────────────────
+        strangeGuy.SetActive(false);                   // tắt MoiGioi ngay
+        foreach (GameObject img in guideImages)
+            if (img != null) img.SetActive(false);
+
+        if (DialogueManager.Instance != null)
+            DialogueManager.Instance.ForceClose();     // force đóng mọi dialogue còn sót
+
+        yield return null;                             // bỏ qua 1 frame cho Z key reset
+
+        // Đánh dấu để HomeIntro biết player đến từ scene này
+        PlayerPrefs.SetInt("PlayHomeIntro", 1);
+        PlayerPrefs.Save();
+
         SceneManager.LoadScene(nextMapName);
     }
 

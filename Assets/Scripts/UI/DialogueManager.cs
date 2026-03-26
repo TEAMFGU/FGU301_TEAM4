@@ -344,7 +344,8 @@ public class DialogueManager : MonoBehaviour
     }
 
     // ─── Dùng cho Cutscene (không cần NPCData) ───────────────────────────────
-    public void ShowCutsceneLine(string speakerName, Sprite avatar, string line, Action onComplete = null)
+    public void ShowCutsceneLine(string speakerName, Sprite avatar, string line,
+        Action onComplete = null, bool hasChoicesAfter = false)   // ← thêm param
     {
         if (string.IsNullOrEmpty(line)) { onComplete?.Invoke(); return; }
 
@@ -353,14 +354,12 @@ public class DialogueManager : MonoBehaviour
         onDialogueComplete      = onComplete;
         isOpen                  = true;
         isChoosingOption        = false;
-        hasChoicesAfterDialogue = false;
+        hasChoicesAfterDialogue = hasChoicesAfter;   // ← dùng param
 
-        // Avatar
         bool hasAvatar = avatar != null;
         avatarImage.gameObject.SetActive(hasAvatar);
         if (hasAvatar) avatarImage.sprite = avatar;
 
-        // Name box – parent của nameTagText là container khung tên
         bool hasName = !string.IsNullOrEmpty(speakerName);
         nameTagText.transform.parent.gameObject.SetActive(hasName);
         if (hasName) nameTagText.text = speakerName;
@@ -370,5 +369,26 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePanel.SetActive(true);
         DisplayLine(line);
+    }
+
+    /// <summary>
+    /// Force đóng dialogue ngay lập tức, không invoke callback.
+    /// Dùng trước khi LoadScene để tránh dialogue leak sang scene mới.
+    /// </summary>
+    public void ForceClose()
+    {
+        isOpen           = false;
+        isChoosingOption = false;
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+
+        onDialogueComplete = null;
+
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        if (choicePanel   != null) choicePanel.SetActive(false);
     }
 }

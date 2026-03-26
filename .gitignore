@@ -84,3 +84,6 @@ desktop.ini
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/**/[Bb]uildProcessorCache
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# ── Save data (file save riêng mỗi máy, không commit) ────────
+Assets/Save/

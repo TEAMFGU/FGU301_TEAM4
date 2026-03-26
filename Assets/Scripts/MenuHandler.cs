@@ -6,6 +6,8 @@ public class MenuHandler : MonoBehaviour
     [SerializeField] private GameObject dayManagerPrefab;
     [SerializeField] private GameObject uiManagerPrefab;
     [SerializeField] private GameObject dialogueManagerPrefab;
+    [SerializeField] private GameObject menuManagerPrefab;      // ← THÊM MỚI
+
     private NameInputHandler nameInputHandler;
 
     private void Start()
@@ -23,6 +25,9 @@ public class MenuHandler : MonoBehaviour
 
     public void ContinueGame()
     {
+        // Đảm bảo persistent managers (bao gồm SaveSystem + PlayerDataManager) đã được khởi tạo
+        InitializePersistentManagers();
+
         if (SaveSystem.Instance == null)
         {
             Debug.LogWarning("SaveSystem chưa được khởi tạo!");
@@ -57,17 +62,29 @@ public class MenuHandler : MonoBehaviour
 
     public void InitializePersistentManagers()
     {
-        // Null-check prefabs để phát hiện lỗi chưa gán Inspector
-        if (dayManagerPrefab == null)   Debug.LogError("❌ dayManagerPrefab chưa được gán trong Inspector!");
-        if (uiManagerPrefab == null)    Debug.LogError("❌ uiManagerPrefab chưa được gán trong Inspector!");
-        if (dialogueManagerPrefab == null) Debug.LogError("❌ dialogueManagerPrefab chưa được gán trong Inspector!");
+        if (dayManagerPrefab == null)      Debug.LogError("❌ dayManagerPrefab chưa được gán!");
+        if (uiManagerPrefab == null)       Debug.LogError("❌ uiManagerPrefab chưa được gán!");
+        if (dialogueManagerPrefab == null) Debug.LogError("❌ dialogueManagerPrefab chưa được gán!");
+        if (menuManagerPrefab == null)     Debug.LogError("❌ menuManagerPrefab chưa được gán!");
+
+        // PlayerDataManager & SaveSystem – pure data, không cần prefab
+        if (PlayerDataManager.Instance == null)
+        {
+            GameObject go = new GameObject("PlayerDataManager");
+            go.AddComponent<PlayerDataManager>();
+        }
+
+        if (SaveSystem.Instance == null)
+        {
+            GameObject go = new GameObject("SaveSystem");
+            go.AddComponent<SaveSystem>();
+        }
 
         if (DayManager.Instance == null && dayManagerPrefab != null)
         {
             GameObject go = Instantiate(dayManagerPrefab);
-            go.SetActive(true); // Đảm bảo Awake() chạy dù prefab root inactive
+            go.SetActive(true);
             UnpackPrefabInEditor(go);
-            Debug.Log("DayManager instantiated");
         }
 
         if (UIManager.Instance == null && uiManagerPrefab != null)
@@ -75,35 +92,36 @@ public class MenuHandler : MonoBehaviour
             GameObject go = Instantiate(uiManagerPrefab);
             go.SetActive(true);
             UnpackPrefabInEditor(go);
-            Debug.Log("UIManager instantiated");
         }
 
         if (DialogueManager.Instance == null && dialogueManagerPrefab != null)
         {
             GameObject go = Instantiate(dialogueManagerPrefab);
-            go.SetActive(true); // QUAN TRỌNG: prefab root phải active để Awake() gán Instance
+            go.SetActive(true);
             UnpackPrefabInEditor(go);
-            Debug.Log("DialogueManager instantiated");
 
-            // Kiểm tra lại sau khi instantiate
             if (DialogueManager.Instance == null)
-            {
-                Debug.LogError("DialogueManager.Instance VẪN null sau Instantiate! Kiểm tra script DialogueManager có gắn trên root GameObject của prefab không.");
-            }
+                Debug.LogError("DialogueManager.Instance VẪN null sau Instantiate!");
+        }
+
+        // ← THÊM MỚI: khởi tạo MenuManager
+        if (MenuManager.Instance == null && menuManagerPrefab != null)
+        {
+            GameObject go = Instantiate(menuManagerPrefab);
+            go.SetActive(true);
+            UnpackPrefabInEditor(go);
         }
     }
 
-    /// <summary>
-    /// Unpack prefab instance trong Editor để mở khóa chỉnh sửa child objects trong Play mode.
-    /// Không ảnh hưởng khi build game.
-    /// </summary>
     private void UnpackPrefabInEditor(GameObject go)
     {
 #if UNITY_EDITOR
         if (UnityEditor.PrefabUtility.IsPartOfPrefabInstance(go))
         {
-            UnityEditor.PrefabUtility.UnpackPrefabInstance(go, UnityEditor.PrefabUnpackMode.Completely, UnityEditor.InteractionMode.AutomatedAction);
-            Debug.Log($"Đã unpack prefab: {go.name} – child objects có thể chỉnh sửa tự do.");
+            UnityEditor.PrefabUtility.UnpackPrefabInstance(
+                go,
+                UnityEditor.PrefabUnpackMode.Completely,
+                UnityEditor.InteractionMode.AutomatedAction);
         }
 #endif
     }

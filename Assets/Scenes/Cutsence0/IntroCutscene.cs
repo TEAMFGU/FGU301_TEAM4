@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IntroCutscene : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class IntroCutscene : MonoBehaviour
     public float autoWalkSpeed = 2f;
     public float walkTime = 3f;
 
-    [Header("Dialogue UI")]
+    [Header("Dialogue UI (intro đi bộ)")]
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
     public float typeSpeed = 0.04f;
@@ -20,6 +21,10 @@ public class IntroCutscene : MonoBehaviour
     public GameObject guidePanel;
     public Image blackScreen;
 
+    [Header("XeOm Dialogue")]
+    public GameObject xeOmGuideImage;
+    public Sprite xeOmAvatar;       // ← kéo sprite mặt xe ôm vào đây
+
     [Header("NPCs Setup")]
     public GameObject[] npcs;
     public Transform[] npcSpawnPoints;
@@ -27,7 +32,7 @@ public class IntroCutscene : MonoBehaviour
     public float npcFollowSpeedRatio = 0.7f;
 
     [Header("Scene Transition")]
-    public string nextMapName = "Map01";
+    public string nextMapName = "Map000_Strange_guy";
     public GameObject teleportTrigger;
 
     bool canStartChasing = false;
@@ -35,36 +40,43 @@ public class IntroCutscene : MonoBehaviour
     string playerName;
     GameObject[] npcInstances;
     Rigidbody2D[] npcRigidbodies;
+    Rigidbody2D playerRb;
     Animator playerAnim;
+
+    // flag dùng chung cho ShowCutsceneLine callback
+    bool dialogueDone = false;
 
     void Start()
     {
         playerName = PlayerPrefs.GetString("PlayerName", "Người chơi");
 
-        // Ẩn hết từ đầu
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
         if (guidePanel != null) guidePanel.SetActive(false);
         if (blackScreen != null) blackScreen.gameObject.SetActive(false);
         if (teleportTrigger != null) teleportTrigger.SetActive(false);
+        if (xeOmGuideImage != null) xeOmGuideImage.SetActive(false);
 
         foreach (var mark in exclamationMarks) mark.SetActive(false);
         if (playerMovement != null) playerMovement.enabled = false;
 
         npcInstances = new GameObject[npcs.Length];
         npcRigidbodies = new Rigidbody2D[npcs.Length];
-        if (player != null) playerAnim = player.GetComponent<Animator>();
+
+        if (player != null)
+        {
+            playerAnim = player.GetComponent<Animator>();
+            playerRb = player.GetComponent<Rigidbody2D>();
+        }
+
         StartCoroutine(PlayIntroSequence());
     }
 
     IEnumerator PlayIntroSequence()
     {
-        // 1. VỪA ĐI VỪA HIỆN THOẠI
+        // 1. Đi bộ + thoại intro (dùng dialoguePanel cũ)
         if (dialoguePanel != null) dialoguePanel.SetActive(true);
-
-        // Chạy TypeText mà KHÔNG dùng yield return để nó không bắt chờ
         StartCoroutine(TypeText("Sau khi kết thúc hành trình 12 năm học...\n" + playerName + " đã chọn FPT..."));
 
-        // Nhân vật bắt đầu đi bộ ngay lập tức
         if (playerAnim != null)
         {
             playerAnim.SetBool("IsMoving", true);
@@ -80,13 +92,10 @@ public class IntroCutscene : MonoBehaviour
             yield return null;
         }
 
-        if (playerAnim != null)
-        {
-            playerAnim.SetBool("IsMoving", false);
-            playerAnim.SetFloat("Vertical", 1f);
-        }
+        if (playerAnim != null) { playerAnim.SetBool("IsMoving", false); playerAnim.SetFloat("Vertical", 1f); }
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
 
-        // 2. Xuất hiện NPC và dấu chấm than
+        // 2. Spawn NPC và dấu !
         for (int i = 0; i < npcs.Length; i++)
         {
             if (npcs[i] != null)
@@ -99,36 +108,27 @@ public class IntroCutscene : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        // 3. HIỆN HƯỚNG DẪN
+        // 3. Hướng dẫn
         if (blackScreen != null) blackScreen.gameObject.SetActive(true);
         if (guidePanel != null) guidePanel.SetActive(true);
-        if (dialoguePanel != null) dialoguePanel.SetActive(false);
 
-        // Đợi ấn Z
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Z));
 
-        // 4. BIẾN MẤT NGAY LẬP TỨC KHI ẤN Z
         if (blackScreen != null) blackScreen.gameObject.SetActive(false);
         if (guidePanel != null) guidePanel.SetActive(false);
-
-        // Trả quyền điều khiển và hiện Trigger
         if (teleportTrigger != null) teleportTrigger.SetActive(true);
         if (playerMovement != null) playerMovement.enabled = true;
 
-        yield return new WaitForSeconds(0.1f); // Nghỉ một chút để tránh dính phím
+        yield return new WaitForSeconds(0.1f);
         canStartChasing = true;
     }
 
-    void Update()
-    {
-    }
+    void Update() { }
 
     void FixedUpdate()
     {
         if (canStartChasing && !isCutsceneEnding)
-        {
             MoveNPCsTowardsPlayer();
-        }
     }
 
     void MoveNPCsTowardsPlayer()
@@ -140,18 +140,20 @@ public class IntroCutscene : MonoBehaviour
             if (npc == null) continue;
 
             if (npcRigidbodies[i] != null)
-            {
-                Vector2 direction = ((Vector2)player.position - npcRigidbodies[i].position).normalized;
-                npcRigidbodies[i].linearVelocity = direction * speed;
-            }
+                npcRigidbodies[i].linearVelocity =
+                    ((Vector2)player.position - npcRigidbodies[i].position).normalized * speed;
             else
-            {
-                npc.transform.position = Vector2.MoveTowards(npc.transform.position, player.position, speed * Time.fixedDeltaTime);
-            }
+                npc.transform.position = Vector2.MoveTowards(
+                    npc.transform.position, player.position, speed * Time.fixedDeltaTime);
 
             if (Vector2.Distance(npc.transform.position, player.position) < 0.5f)
             {
+                isCutsceneEnding = true;
+                canStartChasing = false;
+                StopAllNPCs();
+                StopPlayer();
                 StartCoroutine(TriggerXeOmDialogue());
+                return;
             }
         }
     }
@@ -162,18 +164,48 @@ public class IntroCutscene : MonoBehaviour
             if (rb != null) rb.linearVelocity = Vector2.zero;
     }
 
+    void StopPlayer()
+    {
+        if (playerMovement != null) playerMovement.enabled = false;
+        if (playerRb != null) playerRb.linearVelocity = Vector2.zero;
+        if (playerAnim != null) playerAnim.SetBool("IsMoving", false);
+    }
+
     IEnumerator TriggerXeOmDialogue()
     {
-        isCutsceneEnding = true;
-        canStartChasing = false;
-        StopAllNPCs();
-        if (playerMovement != null) playerMovement.enabled = false;
+        if (DialogueManager.Instance == null)
+        {
+            Debug.LogError("IntroCutscene: DialogueManager.Instance null! Kéo Dialogue_Canvas.prefab vào scene Map00_BenXe.");
+            yield break;
+        }
 
-        if (dialoguePanel != null) dialoguePanel.SetActive(true);
-        yield return StartCoroutine(TypeText("Chú xe ôm: Cháu mới dưới quê lên đúng k? Chùm khu này đây, lên xe chú chở lấy rẻ 200k thôi!"));
+        // Nền đen + hình xe ôm
+        if (blackScreen != null) blackScreen.gameObject.SetActive(true);
+        if (xeOmGuideImage != null) xeOmGuideImage.SetActive(true);
 
-        yield return new WaitForSeconds(2f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(nextMapName);
+        // ── Dòng 1 ────────────────────────────────────────────────────────────
+        dialogueDone = false;
+        DialogueManager.Instance.ShowCutsceneLine(
+            "Chú Xe Ôm", xeOmAvatar,
+            "Cháu mới dưới quê lên đúng k? Chùm khu này đây",
+            () => dialogueDone = true);
+        yield return new WaitUntil(() => dialogueDone);
+
+        // ── Dòng 2 ────────────────────────────────────────────────────────────
+        dialogueDone = false;
+        DialogueManager.Instance.ShowCutsceneLine(
+            "Chú Xe Ôm", xeOmAvatar,
+            "lên xe chú chở lấy rẻ 200k thôi!",
+            () => dialogueDone = true);
+        yield return new WaitUntil(() => dialogueDone);
+
+        // ── Dọn dẹp & chuyển scene ────────────────────────────────────────────
+        DialogueManager.Instance.ForceClose();
+        if (blackScreen != null) blackScreen.gameObject.SetActive(false);
+        if (xeOmGuideImage != null) xeOmGuideImage.SetActive(false);
+
+        yield return new WaitForSeconds(0.3f);
+        SceneManager.LoadScene(nextMapName);
     }
 
     IEnumerator TypeText(string text)

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class TeleportPortal : MonoBehaviour
 {
@@ -11,18 +12,46 @@ public class TeleportPortal : MonoBehaviour
     public GameObject portalMenuUI;
     public Transform buttonContainer;
     public GameObject destinationButtonPrefab;
-    public TMPro.TextMeshProUGUI hintText;
+    public TextMeshProUGUI hintText;
+
+    [Header("Selection Highlight")]
+    public Color normalColor   = Color.white;
+    public Color selectedColor = Color.yellow;
 
     private bool playerInRange = false;
-    private bool menuOpen = false;
+    private bool menuOpen      = false;
+    private int  selectedIndex = 0;
+    private Button[] spawnedButtons;
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E) && !menuOpen)
+        if (playerInRange && !menuOpen && Input.GetKeyDown(KeyCode.E))
+        {
             OpenPortalMenu();
+            return;
+        }
 
-        if (menuOpen && Input.GetKeyDown(KeyCode.Escape))
+        if (!menuOpen) return;
+
+        // ── Điều khiển phím trong menu ────────────────────────────────────────
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedIndex = (selectedIndex - 1 + destinations.Length) % destinations.Length;
+            UpdateSelection();
+        }
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedIndex = (selectedIndex + 1) % destinations.Length;
+            UpdateSelection();
+        }
+        else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
+        {
+            TeleportTo(destinations[selectedIndex]);
+        }
+        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
+        {
             ClosePortalMenu();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -40,35 +69,67 @@ public class TeleportPortal : MonoBehaviour
         {
             playerInRange = false;
             if (hintText != null) hintText.gameObject.SetActive(false);
-            ClosePortalMenu();
+            if (menuOpen) ClosePortalMenu();
         }
     }
 
     void OpenPortalMenu()
     {
-        menuOpen = true;
+        menuOpen      = true;
+        selectedIndex = 0;
+
         portalMenuUI.SetActive(true);
         if (hintText != null) hintText.gameObject.SetActive(false);
 
-        // Xóa button cũ (nếu có)
+        // Khóa player di chuyển
+        var pm = FindFirstObjectByType<PlayerMovement>();
+        if (pm != null) pm.canMove = false;
+
+        // Xóa button cũ
         foreach (Transform child in buttonContainer)
             Destroy(child.gameObject);
 
-        // Tạo button cho từng điểm đến
-        foreach (var dest in destinations)
+        // Tạo button mới
+        spawnedButtons = new Button[destinations.Length];
+        for (int i = 0; i < destinations.Length; i++)
         {
             GameObject btn = Instantiate(destinationButtonPrefab, buttonContainer);
-            btn.GetComponentInChildren<Text>().text = dest.displayName;
-            PortalDestination localDest = dest;
-            btn.GetComponent<Button>().onClick.AddListener(() => TeleportTo(localDest));
+
+            var tmp = btn.GetComponentInChildren<TextMeshProUGUI>();
+            if (tmp != null) tmp.text = destinations[i].displayName;
+
+            int localIndex = i;
+            Button btnComp = btn.GetComponent<Button>();
+            btnComp.onClick.AddListener(() => TeleportTo(destinations[localIndex]));
+            spawnedButtons[i] = btnComp;
+        }
+
+        UpdateSelection();
+    }
+
+    void UpdateSelection()
+    {
+        if (spawnedButtons == null) return;
+
+        for (int i = 0; i < spawnedButtons.Length; i++)
+        {
+            if (spawnedButtons[i] == null) continue;
+
+            var tmp = spawnedButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+            if (tmp != null)
+                tmp.color = (i == selectedIndex) ? selectedColor : normalColor;
         }
     }
 
     void ClosePortalMenu()
     {
         menuOpen = false;
-        portalMenuUI.SetActive(false);
+        if (portalMenuUI != null) portalMenuUI.SetActive(false);
         if (hintText != null && playerInRange) hintText.gameObject.SetActive(true);
+
+        // Mở lại di chuyển
+        var pm = FindFirstObjectByType<PlayerMovement>();
+        if (pm != null) pm.canMove = true;
     }
 
     void TeleportTo(PortalDestination dest)
